@@ -1,0 +1,34 @@
+﻿using BethanyPieShop.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace BethanyPieShop.Components
+{
+    public class ShoppingCartSummary : ViewComponent
+    {
+        private readonly ShoppingCart _shoppingCart;
+
+        public ShoppingCartSummary(ShoppingCart shopping)
+        {
+            _shoppingCart = shopping;
+        }
+
+        public IViewComponentResult Invoke()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+
+            var shoppingCartViewModel = new shoppingCartViewModel
+            {
+                ShoppingCart = _shoppingCart,
+                ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal()
+
+            };
+
+            return View(shoppingCartViewModel);
+        }
+    }
+}
